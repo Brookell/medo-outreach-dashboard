@@ -878,7 +878,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;label class=&quot;filter-control select-filter-control&quot;&gt;&lt;span&gt;状态&lt;/span&gt;
           &lt;select id=&quot;status-filter&quot; class=&quot;filter-select native-choice-filter&quot; aria-hidden=&quot;true&quot;&gt;
             &lt;option value=&quot;all&quot;&gt;全部&lt;/option&gt;
-            &lt;option value=&quot;reachable&quot;&gt;可触达&lt;/option&gt;
+            &lt;option value=&quot;reachable&quot;&gt;待发送&lt;/option&gt;
             &lt;option value=&quot;sent&quot;&gt;已发送&lt;/option&gt;
             &lt;option value=&quot;replied&quot;&gt;已回复&lt;/option&gt;
           &lt;/select&gt;
@@ -889,7 +889,7 @@ html&gt;body{padding:0}&lt;/style&gt;
             &lt;/button&gt;
             &lt;div class=&quot;choice-popover&quot; role=&quot;listbox&quot; aria-label=&quot;选择状态&quot;&gt;
               &lt;button class=&quot;choice-option&quot; type=&quot;button&quot; data-choice-target=&quot;status&quot; data-choice-value=&quot;all&quot;&gt;全部&lt;/button&gt;
-              &lt;button class=&quot;choice-option&quot; type=&quot;button&quot; data-choice-target=&quot;status&quot; data-choice-value=&quot;reachable&quot;&gt;可触达&lt;/button&gt;
+              &lt;button class=&quot;choice-option&quot; type=&quot;button&quot; data-choice-target=&quot;status&quot; data-choice-value=&quot;reachable&quot;&gt;待发送&lt;/button&gt;
               &lt;button class=&quot;choice-option&quot; type=&quot;button&quot; data-choice-target=&quot;status&quot; data-choice-value=&quot;sent&quot;&gt;已发送&lt;/button&gt;
               &lt;button class=&quot;choice-option&quot; type=&quot;button&quot; data-choice-target=&quot;status&quot; data-choice-value=&quot;replied&quot;&gt;已回复&lt;/button&gt;
             &lt;/div&gt;
@@ -933,7 +933,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;/div&gt;
         &lt;div class=&quot;kanban&quot;&gt;
           &lt;div class=&quot;lane&quot; data-lane=&quot;reachable&quot;&gt;
-            &lt;header&gt;&lt;span class=&quot;lane-dot verified&quot;&gt;&lt;/span&gt;可触达渠道 &lt;b id=&quot;reachable-count&quot;&gt;15&lt;/b&gt;&lt;/header&gt;
+            &lt;header&gt;&lt;span class=&quot;lane-dot verified&quot;&gt;&lt;/span&gt;待发送渠道 &lt;b id=&quot;reachable-count&quot;&gt;15&lt;/b&gt;&lt;/header&gt;
             &lt;div id=&quot;reachable-list&quot; class=&quot;lane-list&quot;&gt;&lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
@@ -1593,7 +1593,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     [&quot;北美&quot;,&quot;聚合平台&quot;,&quot;Forward Lawrence&quot;,&quot;https://www.lawrencecounty.com/community-partnership-resources&quot;,&quot;info@lawrencecounty.com&quot;,&quot;建联中&quot;,&quot;&quot;]
   ];
   const ownerStorageKey = &#x27;medo-smb-active-owner&#x27;;
-  const statusLabels = { reachable: &#x27;可触达&#x27;, sent: &#x27;已发送&#x27;, replied: &#x27;已回复&#x27; };
+  const statusLabels = { reachable: &#x27;待发送&#x27;, sent: &#x27;已发送&#x27;, replied: &#x27;已回复&#x27; };
   const firstEmail = value =&gt; String(value || &#x27;&#x27;).match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)?.[0] || &#x27;&#x27;;
   const normalizeUrl = value =&gt; {
     const url = String(value || &#x27;&#x27;).trim();
@@ -2633,7 +2633,7 @@ MeDo Team`
   }
 
   function choiceStatusLabelFor(key) {
-    return ({all:&#x27;全部&#x27;, reachable:&#x27;可触达&#x27;, sent:&#x27;已发送&#x27;, replied:&#x27;已回复&#x27;}[key] || key);
+    return ({all:&#x27;全部&#x27;, reachable:&#x27;待发送&#x27;, sent:&#x27;已发送&#x27;, replied:&#x27;已回复&#x27;}[key] || key);
   }
 
   function closeChoicePickers(except = null) {
