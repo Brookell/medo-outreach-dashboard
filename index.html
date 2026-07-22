@@ -842,6 +842,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;input id=&quot;target-search&quot; class=&quot;form-control&quot; type=&quot;search&quot; placeholder=&quot;搜索渠道、受众或邮箱&quot; aria-label=&quot;搜索推广渠道&quot;&gt;
       &lt;/label&gt;
       &lt;div class=&quot;top-actions&quot;&gt;
+        &lt;span id=&quot;sheet-sync-status&quot; class=&quot;sync-status&quot; aria-live=&quot;polite&quot;&gt;同步中&lt;/span&gt;
         &lt;button id=&quot;export-targets&quot; class=&quot;top-command top-command-quiet&quot; type=&quot;button&quot;&gt;&lt;i data-lucide=&quot;download&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;span&gt;导出 CSV&lt;/span&gt;&lt;/button&gt;
         &lt;button id=&quot;add-target&quot; class=&quot;top-command top-command-primary&quot; type=&quot;button&quot;&gt;&lt;i data-lucide=&quot;plus&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;span&gt;新增渠道&lt;/span&gt;&lt;/button&gt;
         &lt;span class=&quot;avatar&quot; aria-label=&quot;MeDo Team&quot;&gt;M&lt;/span&gt;
@@ -1213,6 +1214,9 @@ html&gt;body{padding:0}&lt;/style&gt;
   #medo-outreach-board .search-wrap &gt; span { position: absolute; left: 13px; z-index: 1; color: var(--muted-foreground); }
   #medo-outreach-board .search-wrap input { padding-left: 36px; background: color-mix(in srgb, var(--card) 76%, transparent); }
   #medo-outreach-board .top-actions { display: flex; align-items: center; gap: 10px; }
+  #medo-outreach-board .sync-status { display: inline-flex; align-items: center; min-height: 30px; border-radius: 999px; padding: 0 10px; background: color-mix(in srgb, var(--secondary) 72%, transparent); color: var(--muted-foreground); border: 1px solid color-mix(in srgb, var(--border) 62%, transparent); font-size: 12px; white-space: nowrap; }
+  #medo-outreach-board .sync-status.is-live { color: var(--foreground); background: color-mix(in srgb, var(--accent) 72%, transparent); }
+  #medo-outreach-board .sync-status.is-error { color: var(--destructive); background: color-mix(in srgb, var(--destructive) 10%, transparent); }
   #medo-outreach-board .top-command { appearance: none; border: 0; border-radius: 999px; background: transparent; color: var(--foreground); padding: 8px 11px; display: inline-flex; align-items: center; gap: 7px; font: inherit; font-weight: 500; cursor: pointer; }
   #medo-outreach-board .top-command svg { width: 15px; height: 15px; }
   #medo-outreach-board .top-command-quiet { color: var(--muted-foreground); }
@@ -1687,10 +1691,12 @@ html&gt;body{padding:0}&lt;/style&gt;
   const sourcedCalendarMonthLabel = root.querySelector(&#x27;#sourced-cal-month&#x27;);
   const sourcedCalendarGrid = root.querySelector(&#x27;#sourced-calendar-grid&#x27;);
   const reachableList = root.querySelector(&#x27;#reachable-list&#x27;);
+  const sheetSyncStatus = root.querySelector(&#x27;#sheet-sync-status&#x27;);
   let activeOwner = localStorage.getItem(ownerStorageKey) || &#x27;all&#x27;;
   let currentLang = localStorage.getItem(languageStorageKey) || &#x27;en&#x27;;
   let followupFilter = &#x27;todo&#x27;;
   let sourcedCalendarMonth;
+  let isSheetRefreshing = false;
   const esc = value =&gt; String(value ?? &#x27;&#x27;).replace(/[&amp;&lt;&gt;&quot;&#x27;]/g, ch =&gt; ({&#x27;&amp;&#x27;:&#x27;&amp;amp;&#x27;,&#x27;&lt;&#x27;:&#x27;&amp;lt;&#x27;,&#x27;&gt;&#x27;:&#x27;&amp;gt;&#x27;,&#x27;&quot;&#x27;:&#x27;&amp;quot;&#x27;,&quot;&#x27;&quot;:&#x27;&amp;#39;&#x27;}[ch]));
   const pendingStatuses = new Set([&#x27;reachable&#x27;]);
   const typeGroups = {
@@ -2497,6 +2503,17 @@ MeDo Team`
     return rows.map(sheetRowToTarget);
   }
 
+  function formatSyncTime(date = new Date()) {
+    return date.toLocaleTimeString(&#x27;zh-CN&#x27;, {hour: &#x27;2-digit&#x27;, minute: &#x27;2-digit&#x27;});
+  }
+
+  function setSheetSyncStatus(state, detail = &#x27;&#x27;) {
+    if (!sheetSyncStatus) return;
+    sheetSyncStatus.classList.toggle(&#x27;is-live&#x27;, state === &#x27;live&#x27;);
+    sheetSyncStatus.classList.toggle(&#x27;is-error&#x27;, state === &#x27;error&#x27;);
+    sheetSyncStatus.textContent = detail || ({loading: &#x27;同步中&#x27;, live: &#x27;已同步&#x27;, error: &#x27;同步失败&#x27;}[state] || &#x27;同步中&#x27;);
+  }
+
   function targetKey(target) {
     return target?.id || `${ownerFor(target)}::${target?.name || &#x27;&#x27;}::${target?.url || &#x27;&#x27;}`;
   }
@@ -2551,9 +2568,15 @@ MeDo Team`
   let selected = targets[0];
 
   async function refreshTargetsFromSheet() {
+    if (isSheetRefreshing) return;
+    isSheetRefreshing = true;
+    setSheetSyncStatus(&#x27;loading&#x27;, &#x27;同步中&#x27;);
     try {
       const rows = await loadSheetRows();
-      if (!rows.length) return;
+      if (!rows.length) {
+        setSheetSyncStatus(&#x27;error&#x27;, &#x27;未读到表格&#x27;);
+        return;
+      }
       targets = mergeSavedTargets(targetsFromSheetRows(rows));
       targets = targets.map(target =&gt; ownerFor(target) === &#x27;陈柯贝&#x27; ? {...target, status: &#x27;sent&#x27;} : target);
       const pool = workspaceTargets().sort(compareWorkOrder);
@@ -2563,8 +2586,13 @@ MeDo Team`
         selected = targets.find(target =&gt; targetLooseKey(target) === targetLooseKey(selected)) || selected;
       }
       render();
+      const liaoCount = targets.filter(target =&gt; ownerFor(target) === &#x27;廖雨鑫&#x27;).length;
+      setSheetSyncStatus(&#x27;live&#x27;, `已同步 ${formatSyncTime()} · 廖雨鑫 ${liaoCount}`);
     } catch (error) {
       console.warn(&#x27;[MeDo dashboard] Google Sheet sync failed:&#x27;, error);
+      setSheetSyncStatus(&#x27;error&#x27;, &#x27;同步失败&#x27;);
+    } finally {
+      isSheetRefreshing = false;
     }
   }
 
@@ -3394,6 +3422,7 @@ MeDo Team`;
   }
   render();
   refreshTargetsFromSheet();
+  window.setInterval(refreshTargetsFromSheet, 60000);
 })();
 &lt;/script&gt;
 
