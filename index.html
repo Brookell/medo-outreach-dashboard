@@ -15,7 +15,7 @@
 &lt;meta charset=&quot;utf-8&quot;&gt;
 &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
 &lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
-&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com https://docs.google.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com https://docs.google.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
 &lt;title&gt;MeDo SMB 企业触达看板&lt;/title&gt;
 &lt;style&gt;:root {
   color-scheme: light dark;
@@ -1147,10 +1147,12 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;button id=&quot;mark-selected-sent&quot; class=&quot;top-command top-command-primary&quot; type=&quot;button&quot;&gt;标记当前已发送&lt;/button&gt;
       &lt;/div&gt;
       &lt;div class=&quot;followup-tabs&quot; aria-label=&quot;跟进状态筛选&quot;&gt;
-        &lt;button class=&quot;followup-tab active&quot; type=&quot;button&quot; data-followup-filter=&quot;todo&quot; aria-pressed=&quot;true&quot;&gt;&lt;span id=&quot;followup-todo-count&quot;&gt;15&lt;/span&gt;待发送&lt;/button&gt;
-        &lt;button class=&quot;followup-tab&quot; type=&quot;button&quot; data-followup-filter=&quot;sent&quot; aria-pressed=&quot;false&quot;&gt;&lt;span id=&quot;followup-sent-count&quot;&gt;0&lt;/span&gt;已发送/待跟进&lt;/button&gt;
-        &lt;button class=&quot;followup-tab&quot; type=&quot;button&quot; data-followup-filter=&quot;replied&quot; aria-pressed=&quot;false&quot;&gt;&lt;span id=&quot;followup-replied-count&quot;&gt;0&lt;/span&gt;已回复&lt;/button&gt;
-        &lt;button class=&quot;followup-tab&quot; type=&quot;button&quot; data-followup-filter=&quot;all&quot; aria-pressed=&quot;false&quot;&gt;&lt;span id=&quot;followup-all-count&quot;&gt;15&lt;/span&gt;全部&lt;/button&gt;
+        &lt;button class=&quot;followup-tab active&quot; type=&quot;button&quot; data-followup-filter=&quot;all&quot; aria-pressed=&quot;true&quot;&gt;&lt;span id=&quot;followup-all-count&quot;&gt;15&lt;/span&gt;全部&lt;/button&gt;
+        &lt;button class=&quot;followup-tab&quot; type=&quot;button&quot; data-followup-filter=&quot;建联中&quot; aria-pressed=&quot;false&quot;&gt;&lt;span id=&quot;followup-contacting-count&quot;&gt;0&lt;/span&gt;建联中&lt;/button&gt;
+        &lt;button class=&quot;followup-tab&quot; type=&quot;button&quot; data-followup-filter=&quot;沟通中&quot; aria-pressed=&quot;false&quot;&gt;&lt;span id=&quot;followup-communicating-count&quot;&gt;0&lt;/span&gt;沟通中&lt;/button&gt;
+        &lt;button class=&quot;followup-tab&quot; type=&quot;button&quot; data-followup-filter=&quot;确认合作&quot; aria-pressed=&quot;false&quot;&gt;&lt;span id=&quot;followup-confirmed-count&quot;&gt;0&lt;/span&gt;确认合作&lt;/button&gt;
+        &lt;button class=&quot;followup-tab&quot; type=&quot;button&quot; data-followup-filter=&quot;暂不合作&quot; aria-pressed=&quot;false&quot;&gt;&lt;span id=&quot;followup-declined-count&quot;&gt;0&lt;/span&gt;暂不合作&lt;/button&gt;
+        &lt;button class=&quot;followup-tab&quot; type=&quot;button&quot; data-followup-filter=&quot;待建联&quot; aria-pressed=&quot;false&quot;&gt;&lt;span id=&quot;followup-pending-count&quot;&gt;0&lt;/span&gt;待建联&lt;/button&gt;
       &lt;/div&gt;
       &lt;div id=&quot;followup-list&quot; class=&quot;followup-list&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
     &lt;/section&gt;
@@ -1331,6 +1333,24 @@ html&gt;body{padding:0}&lt;/style&gt;
   #medo-outreach-board .template-item[aria-pressed=&quot;true&quot;] { border-color: color-mix(in srgb, var(--foreground) 30%, var(--border)); background: color-mix(in srgb, var(--accent) 35%, transparent); }
   #medo-outreach-board .template-item strong, #medo-outreach-board .followup-item strong { font-weight: 500; }
   #medo-outreach-board .template-item small, #medo-outreach-board .followup-item small { color: var(--muted-foreground); }
+  #medo-outreach-board .progress-switcher { display: flex; flex-wrap: wrap; gap: 6px; }
+  #medo-outreach-board .progress-chip {
+    appearance: none;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 5px 9px;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--foreground);
+    background: color-mix(in srgb, var(--muted) 52%, var(--card));
+  }
+  #medo-outreach-board .progress-chip.active { background: var(--foreground); color: var(--background); }
+  #medo-outreach-board .progress-chip.progress-contacting { background: color-mix(in srgb, var(--viz-series-4) 18%, var(--card)); }
+  #medo-outreach-board .progress-chip.progress-communicating { background: color-mix(in srgb, var(--viz-series-1) 16%, var(--card)); }
+  #medo-outreach-board .progress-chip.progress-confirmed { background: color-mix(in srgb, var(--viz-series-3) 16%, var(--card)); }
+  #medo-outreach-board .progress-chip.progress-declined { background: color-mix(in srgb, var(--destructive) 14%, var(--card)); }
+  #medo-outreach-board .progress-chip.progress-pending { background: color-mix(in srgb, var(--viz-series-2) 16%, var(--card)); }
   #medo-outreach-board .template-preview { display: grid; gap: 10px; }
   #medo-outreach-board .template-preview .email-link { color: var(--primary); text-decoration: none; width: fit-content; }
   #medo-outreach-board .template-preview .email-link:hover { text-decoration: underline; }
@@ -1594,6 +1614,8 @@ html&gt;body{padding:0}&lt;/style&gt;
   ];
   const ownerStorageKey = &#x27;medo-smb-active-owner&#x27;;
   const statusLabels = { reachable: &#x27;待发送&#x27;, sent: &#x27;已发送&#x27;, replied: &#x27;已回复&#x27; };
+  const progressOptions = [&#x27;建联中&#x27;, &#x27;沟通中&#x27;, &#x27;确认合作&#x27;, &#x27;暂不合作&#x27;, &#x27;待建联&#x27;];
+  const progressOrder = [&#x27;建联中&#x27;, &#x27;沟通中&#x27;, &#x27;确认合作&#x27;, &#x27;暂不合作&#x27;, &#x27;待建联&#x27;];
   const firstEmail = value =&gt; String(value || &#x27;&#x27;).match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)?.[0] || &#x27;&#x27;;
   const normalizeUrl = value =&gt; {
     const url = String(value || &#x27;&#x27;).trim();
@@ -1617,8 +1639,38 @@ html&gt;body{padding:0}&lt;/style&gt;
   function sheetStatus(progress, owner = &#x27;&#x27;) {
     if (owner === &#x27;陈柯贝&#x27;) return &#x27;sent&#x27;;
     const value = String(progress || &#x27;&#x27;);
-    if (/已回复|确认合作/.test(value)) return &#x27;replied&#x27;;
+    if (/已回复|确认合作|暂不合作/.test(value)) return &#x27;replied&#x27;;
     if (/已发送|沟通中/.test(value)) return &#x27;sent&#x27;;
+    if (/建联中|待建联/.test(value)) return &#x27;reachable&#x27;;
+    return &#x27;reachable&#x27;;
+  }
+  function progressKeyFor(value) {
+    const text = String(value || &#x27;&#x27;).trim();
+    if (progressOptions.includes(text)) return text;
+    return &#x27;&#x27;;
+  }
+  function progressLabelFor(value) {
+    return progressKeyFor(value) || &#x27;建联中&#x27;;
+  }
+  function progressClassFor(value) {
+    return ({
+      &#x27;建联中&#x27;: &#x27;progress-contacting&#x27;,
+      &#x27;沟通中&#x27;: &#x27;progress-communicating&#x27;,
+      &#x27;确认合作&#x27;: &#x27;progress-confirmed&#x27;,
+      &#x27;暂不合作&#x27;: &#x27;progress-declined&#x27;,
+      &#x27;待建联&#x27;: &#x27;progress-pending&#x27;
+    })[progressLabelFor(value)] || &#x27;progress-contacting&#x27;;
+  }
+  function progressFor(target) {
+    const saved = progressKeyFor(target?.sheetProgress);
+    if (saved) return saved;
+    if (target?.status === &#x27;replied&#x27;) return &#x27;确认合作&#x27;;
+    if (target?.status === &#x27;sent&#x27; || target?.firstsent) return &#x27;沟通中&#x27;;
+    return &#x27;建联中&#x27;;
+  }
+  function progressStatusFor(progress) {
+    if (progress === &#x27;沟通中&#x27;) return &#x27;sent&#x27;;
+    if (progress === &#x27;确认合作&#x27; || progress === &#x27;暂不合作&#x27;) return &#x27;replied&#x27;;
     return &#x27;reachable&#x27;;
   }
   function sheetFitFor(name, url, type) {
@@ -1694,7 +1746,7 @@ html&gt;body{padding:0}&lt;/style&gt;
   const sheetSyncStatus = root.querySelector(&#x27;#sheet-sync-status&#x27;);
   let activeOwner = localStorage.getItem(ownerStorageKey) || &#x27;all&#x27;;
   let currentLang = localStorage.getItem(languageStorageKey) || &#x27;en&#x27;;
-  let followupFilter = &#x27;todo&#x27;;
+  let followupFilter = &#x27;all&#x27;;
   let sourcedCalendarMonth;
   let isSheetRefreshing = false;
   const esc = value =&gt; String(value ?? &#x27;&#x27;).replace(/[&amp;&lt;&gt;&quot;&#x27;]/g, ch =&gt; ({&#x27;&amp;&#x27;:&#x27;&amp;amp;&#x27;,&#x27;&lt;&#x27;:&#x27;&amp;lt;&#x27;,&#x27;&gt;&#x27;:&#x27;&amp;gt;&#x27;,&#x27;&quot;&#x27;:&#x27;&amp;quot;&#x27;,&quot;&#x27;&quot;:&#x27;&amp;#39;&#x27;}[ch]));
@@ -2495,7 +2547,7 @@ MeDo Team`
       owner,
       sourcedDate: currentSourcingDate,
       notes: row[&#x27;备注&#x27;] || &#x27;&#x27;,
-      sheetProgress: row[&#x27;当前进度&#x27;] || &#x27;&#x27;
+      sheetProgress: row[&#x27;当前进度&#x27;] || localBase.sheetProgress || &#x27;&#x27;
     }, owner);
   }
 
@@ -2542,7 +2594,7 @@ MeDo Team`
     const normalizedSaved = Array.isArray(saved) ? saved.map(target =&gt; withOwnerDefaults(target, ownerFor(target))) : [];
     const savedByKey = new Map(normalizedSaved.map(target =&gt; [targetKey(target), target]));
     const savedByLooseKey = new Map(normalizedSaved.map(target =&gt; [targetLooseKey(target), target]));
-    const localOnlyFields = [&#x27;firstsent&#x27;,&#x27;followup&#x27;,&#x27;emailSubject&#x27;,&#x27;emailBodyEn&#x27;,&#x27;emailBodyZh&#x27;];
+    const localOnlyFields = [&#x27;firstsent&#x27;,&#x27;followup&#x27;,&#x27;sheetProgress&#x27;,&#x27;emailSubject&#x27;,&#x27;emailBodyEn&#x27;,&#x27;emailBodyZh&#x27;];
     const merged = baseTargets.map(base =&gt; {
       const savedTarget = savedByKey.get(targetKey(base)) || savedByLooseKey.get(targetLooseKey(base));
       if (!savedTarget) return base;
@@ -2555,7 +2607,10 @@ MeDo Team`
     normalizedSaved.forEach(target =&gt; {
       if (!merged.some(existing =&gt; targetKey(existing) === targetKey(target) || targetLooseKey(existing) === targetLooseKey(target))) merged.push(target);
     });
-    return merged;
+    return merged.map(target =&gt; {
+      const savedProgress = progressKeyFor(target.sheetProgress);
+      return savedProgress ? {...target, status: progressStatusFor(savedProgress)} : target;
+    });
   }
 
   const baseTargets = [
@@ -2825,9 +2880,10 @@ MeDo Team`
   }
 
   function followupBucket(target) {
-    if (target.status === &#x27;replied&#x27;) return &#x27;replied&#x27;;
-    if (target.status === &#x27;sent&#x27; || target.firstsent) return &#x27;sent&#x27;;
-    return &#x27;todo&#x27;;
+    const progress = progressFor(target);
+    if (progress === &#x27;建联中&#x27; || progress === &#x27;待建联&#x27;) return &#x27;todo&#x27;;
+    if (progress === &#x27;沟通中&#x27;) return &#x27;sent&#x27;;
+    return &#x27;replied&#x27;;
   }
 
   function statusClassFor(target) {
@@ -2960,14 +3016,22 @@ MeDo Team`;
     target.followup = date.toISOString().slice(0, 10);
   }
 
-  function markTargetSent(target) {
-    if (!target) return;
-    target.status = &#x27;sent&#x27;;
-    target.firstsent = target.firstsent || todayIsoDate();
-    ensureFollowupDate(target);
+  function setTargetProgress(target, progress) {
+    if (!target || !progressOptions.includes(progress)) return;
+    target.sheetProgress = progress;
+    target.status = progressStatusFor(progress);
+    if (progress === &#x27;沟通中&#x27; || progress === &#x27;确认合作&#x27; || progress === &#x27;暂不合作&#x27;) {
+      target.firstsent = target.firstsent || todayIsoDate();
+      ensureFollowupDate(target);
+    }
     selectTarget(target);
     persist();
     render();
+  }
+
+  function markTargetSent(target) {
+    if (!target) return;
+    setTargetProgress(target, &#x27;沟通中&#x27;);
   }
 
   function selectTarget(target) {
@@ -3083,17 +3147,28 @@ MeDo Team`;
 
   function followupItemFor(target) {
     const item = document.createElement(&#x27;article&#x27;);
+    const progress = progressFor(target);
     const bucket = followupBucket(target);
-    item.className = `followup-item status-${bucket}`;
-    const statusText = bucket === &#x27;todo&#x27; ? &#x27;待发送&#x27; : bucket === &#x27;sent&#x27; ? &#x27;已发送 · 待跟进&#x27; : &#x27;已回复&#x27;;
+    item.className = `followup-item status-${bucket} ${progressClassFor(progress)}`;
+    item.dataset.key = targetKey(target);
+    const statusText = progress;
     const nextDate = target.followup || (bucket === &#x27;todo&#x27; ? &#x27;尚未发送&#x27; : &#x27;待设定跟进日期&#x27;);
-    const primaryAction = bucket === &#x27;todo&#x27; ? &#x27;标记已发送&#x27; : bucket === &#x27;sent&#x27; ? &#x27;标记已回复&#x27; : &#x27;重新跟进&#x27;;
+    const primaryAction = progress === &#x27;建联中&#x27; || progress === &#x27;待建联&#x27;
+      ? &#x27;标记已发送&#x27;
+      : progress === &#x27;沟通中&#x27;
+        ? &#x27;标记已确认&#x27;
+        : progress === &#x27;确认合作&#x27;
+          ? &#x27;标记暂不合作&#x27;
+          : &#x27;重新建联&#x27;;
     item.innerHTML = `
       &lt;div class=&quot;followup-main&quot;&gt;
-        &lt;div class=&quot;followup-titleline&quot;&gt;&lt;strong&gt;${esc(target.name)}&lt;/strong&gt;&lt;span class=&quot;followup-pill&quot;&gt;${esc(statusText)}&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;followup-titleline&quot;&gt;&lt;strong&gt;${esc(target.name)}&lt;/strong&gt;&lt;span class=&quot;followup-pill ${progressClassFor(progress)}&quot;&gt;${esc(statusText)}&lt;/span&gt;&lt;/div&gt;
         &lt;div class=&quot;followup-facts&quot;&gt;
           &lt;span class=&quot;followup-fact&quot;&gt;&lt;span&gt;下次跟进&lt;/span&gt;&lt;b&gt;${esc(nextDate)}&lt;/b&gt;&lt;/span&gt;
           &lt;span class=&quot;followup-fact&quot;&gt;&lt;span&gt;邮箱&lt;/span&gt;&lt;b&gt;${esc(target.email || target.contact)}&lt;/b&gt;&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;progress-switcher&quot; role=&quot;group&quot; aria-label=&quot;${esc(target.name)} 进度切换&quot;&gt;
+          ${progressOptions.map(option =&gt; `&lt;button type=&quot;button&quot; class=&quot;progress-chip ${progressClassFor(option)}${option === progress ? &#x27; active&#x27; : &#x27;&#x27;}&quot; data-progress-value=&quot;${esc(option)}&quot; aria-pressed=&quot;${String(option === progress)}&quot;&gt;${esc(option)}&lt;/button&gt;`).join(&#x27;&#x27;)}
         &lt;/div&gt;
       &lt;/div&gt;
       &lt;p class=&quot;followup-next&quot;&gt;&lt;span&gt;下一步&lt;/span&gt;&lt;strong&gt;${esc(target.next)}&lt;/strong&gt;&lt;/p&gt;
@@ -3103,19 +3178,23 @@ MeDo Team`;
         &lt;button type=&quot;button&quot; data-followup-key=&quot;${esc(targetKey(target))}&quot;&gt;${esc(primaryAction)}&lt;/button&gt;
       &lt;/div&gt;
     `;
-    item.querySelector(&#x27;button&#x27;).addEventListener(&#x27;click&#x27;, event =&gt; {
+    const primaryButton = item.querySelector(&#x27;.row-actions button&#x27;);
+    primaryButton?.addEventListener(&#x27;click&#x27;, event =&gt; {
       const current = targets.find(t =&gt; targetKey(t) === event.currentTarget.dataset.followupKey);
       if (!current) return;
-      const currentBucket = followupBucket(current);
-      if (currentBucket === &#x27;sent&#x27;) {
-        current.status = &#x27;replied&#x27;;
-        selectTarget(current);
-        persist();
-        render();
-      } else {
-        markTargetSent(current);
-      }
+      const currentProgress = progressFor(current);
+      if (currentProgress === &#x27;建联中&#x27; || currentProgress === &#x27;待建联&#x27;) return markTargetSent(current);
+      if (currentProgress === &#x27;沟通中&#x27;) return setTargetProgress(current, &#x27;确认合作&#x27;);
+      if (currentProgress === &#x27;确认合作&#x27;) return setTargetProgress(current, &#x27;暂不合作&#x27;);
+      return setTargetProgress(current, &#x27;建联中&#x27;);
     });
+    item.querySelectorAll(&#x27;[data-progress-value]&#x27;).forEach(button =&gt; button.addEventListener(&#x27;click&#x27;, event =&gt; {
+      event.stopPropagation();
+      const current = targets.find(t =&gt; targetKey(t) === item.dataset.key);
+      const progress = event.currentTarget.dataset.progressValue;
+      if (!current || !progress) return;
+      setTargetProgress(current, progress);
+    }));
     return item;
   }
 
@@ -3185,15 +3264,13 @@ MeDo Team`;
     if (!list) return;
     list.replaceChildren();
     const pool = workspaceTargets();
-    const counts = {
-      todo: pool.filter(target =&gt; followupBucket(target) === &#x27;todo&#x27;).length,
-      sent: pool.filter(target =&gt; followupBucket(target) === &#x27;sent&#x27;).length,
-      replied: pool.filter(target =&gt; followupBucket(target) === &#x27;replied&#x27;).length,
-      all: pool.length
-    };
-    root.querySelector(&#x27;#followup-todo-count&#x27;).textContent = counts.todo;
-    root.querySelector(&#x27;#followup-sent-count&#x27;).textContent = counts.sent;
-    root.querySelector(&#x27;#followup-replied-count&#x27;).textContent = counts.replied;
+    const counts = Object.fromEntries(progressOptions.map(option =&gt; [option, pool.filter(target =&gt; progressFor(target) === option).length]));
+    counts.all = pool.length;
+    root.querySelector(&#x27;#followup-contacting-count&#x27;).textContent = counts[&#x27;建联中&#x27;];
+    root.querySelector(&#x27;#followup-communicating-count&#x27;).textContent = counts[&#x27;沟通中&#x27;];
+    root.querySelector(&#x27;#followup-confirmed-count&#x27;).textContent = counts[&#x27;确认合作&#x27;];
+    root.querySelector(&#x27;#followup-declined-count&#x27;).textContent = counts[&#x27;暂不合作&#x27;];
+    root.querySelector(&#x27;#followup-pending-count&#x27;).textContent = counts[&#x27;待建联&#x27;];
     root.querySelector(&#x27;#followup-all-count&#x27;).textContent = counts.all;
     root.querySelectorAll(&#x27;.followup-tab&#x27;).forEach(tab =&gt; {
       const active = tab.dataset.followupFilter === followupFilter;
@@ -3201,10 +3278,13 @@ MeDo Team`;
       tab.setAttribute(&#x27;aria-pressed&#x27;, String(active));
     });
     const ordered = [...pool].sort((a, b) =&gt; {
-      const ad = a.followup || &#x27;9999-12-31&#x27;;
-      const bd = b.followup || &#x27;9999-12-31&#x27;;
-      return ad.localeCompare(bd) || a.name.localeCompare(b.name);
-    }).filter(target =&gt; followupFilter === &#x27;all&#x27; || followupBucket(target) === followupFilter);
+      const ad = progressOrder.indexOf(progressFor(a));
+      const bd = progressOrder.indexOf(progressFor(b));
+      if (ad !== bd) return ad - bd;
+      const aDate = a.followup || &#x27;9999-12-31&#x27;;
+      const bDate = b.followup || &#x27;9999-12-31&#x27;;
+      return aDate.localeCompare(bDate) || a.name.localeCompare(b.name);
+    }).filter(target =&gt; followupFilter === &#x27;all&#x27; || progressFor(target) === followupFilter);
     ordered.forEach(target =&gt; list.appendChild(followupItemFor(target)));
     if (!list.children.length) list.innerHTML = &#x27;&lt;p class=&quot;empty&quot;&gt;暂无跟进任务&lt;/p&gt;&#x27;;
   }
