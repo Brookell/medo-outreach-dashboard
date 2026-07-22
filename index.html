@@ -878,7 +878,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;label class=&quot;filter-control select-filter-control&quot;&gt;&lt;span&gt;状态&lt;/span&gt;
           &lt;select id=&quot;status-filter&quot; class=&quot;filter-select native-choice-filter&quot; aria-hidden=&quot;true&quot;&gt;
             &lt;option value=&quot;all&quot;&gt;全部&lt;/option&gt;
-            &lt;option value=&quot;reachable&quot;&gt;待发送&lt;/option&gt;
+            &lt;option value=&quot;reachable&quot;&gt;待建联&lt;/option&gt;
             &lt;option value=&quot;sent&quot;&gt;已发送&lt;/option&gt;
             &lt;option value=&quot;replied&quot;&gt;已回复&lt;/option&gt;
           &lt;/select&gt;
@@ -889,7 +889,7 @@ html&gt;body{padding:0}&lt;/style&gt;
             &lt;/button&gt;
             &lt;div class=&quot;choice-popover&quot; role=&quot;listbox&quot; aria-label=&quot;选择状态&quot;&gt;
               &lt;button class=&quot;choice-option&quot; type=&quot;button&quot; data-choice-target=&quot;status&quot; data-choice-value=&quot;all&quot;&gt;全部&lt;/button&gt;
-              &lt;button class=&quot;choice-option&quot; type=&quot;button&quot; data-choice-target=&quot;status&quot; data-choice-value=&quot;reachable&quot;&gt;待发送&lt;/button&gt;
+              &lt;button class=&quot;choice-option&quot; type=&quot;button&quot; data-choice-target=&quot;status&quot; data-choice-value=&quot;reachable&quot;&gt;待建联&lt;/button&gt;
               &lt;button class=&quot;choice-option&quot; type=&quot;button&quot; data-choice-target=&quot;status&quot; data-choice-value=&quot;sent&quot;&gt;已发送&lt;/button&gt;
               &lt;button class=&quot;choice-option&quot; type=&quot;button&quot; data-choice-target=&quot;status&quot; data-choice-value=&quot;replied&quot;&gt;已回复&lt;/button&gt;
             &lt;/div&gt;
@@ -933,7 +933,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         &lt;/div&gt;
         &lt;div class=&quot;kanban&quot;&gt;
           &lt;div class=&quot;lane&quot; data-lane=&quot;reachable&quot;&gt;
-            &lt;header&gt;&lt;span class=&quot;lane-dot verified&quot;&gt;&lt;/span&gt;待发送渠道 &lt;b id=&quot;reachable-count&quot;&gt;15&lt;/b&gt;&lt;/header&gt;
+            &lt;header&gt;&lt;span class=&quot;lane-dot verified&quot;&gt;&lt;/span&gt;待建联渠道 &lt;b id=&quot;reachable-count&quot;&gt;15&lt;/b&gt;&lt;/header&gt;
             &lt;div id=&quot;reachable-list&quot; class=&quot;lane-list&quot;&gt;&lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
@@ -1613,7 +1613,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     [&quot;北美&quot;,&quot;聚合平台&quot;,&quot;Forward Lawrence&quot;,&quot;https://www.lawrencecounty.com/community-partnership-resources&quot;,&quot;info@lawrencecounty.com&quot;,&quot;建联中&quot;,&quot;&quot;]
   ];
   const ownerStorageKey = &#x27;medo-smb-active-owner&#x27;;
-  const statusLabels = { reachable: &#x27;待发送&#x27;, sent: &#x27;已发送&#x27;, replied: &#x27;已回复&#x27; };
+  const statusLabels = { reachable: &#x27;待建联&#x27;, sent: &#x27;已发送&#x27;, replied: &#x27;已回复&#x27; };
   const progressOptions = [&#x27;建联中&#x27;, &#x27;沟通中&#x27;, &#x27;确认合作&#x27;, &#x27;暂不合作&#x27;, &#x27;待建联&#x27;];
   const progressOrder = [&#x27;建联中&#x27;, &#x27;沟通中&#x27;, &#x27;确认合作&#x27;, &#x27;暂不合作&#x27;, &#x27;待建联&#x27;];
   const firstEmail = value =&gt; String(value || &#x27;&#x27;).match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)?.[0] || &#x27;&#x27;;
@@ -2688,7 +2688,7 @@ MeDo Team`
   }
 
   function choiceStatusLabelFor(key) {
-    return ({all:&#x27;全部&#x27;, reachable:&#x27;待发送&#x27;, sent:&#x27;已发送&#x27;, replied:&#x27;已回复&#x27;}[key] || key);
+    return ({all:&#x27;全部&#x27;, reachable:&#x27;待建联&#x27;, sent:&#x27;已发送&#x27;, replied:&#x27;已回复&#x27;}[key] || key);
   }
 
   function closeChoicePickers(except = null) {
@@ -3292,12 +3292,13 @@ MeDo Team`;
   function render() {
     const pool = workspaceTargets();
     const filtered = pool.filter(target =&gt; matchesFilters(target)).sort(compareWorkOrder);
-    if (selected &amp;&amp; !pool.some(target =&gt; targetKey(target) === targetKey(selected))) selected = filtered[0] || pool[0] || targets[0];
+    const pendingList = filtered.filter(target =&gt; progressFor(target) === &#x27;待建联&#x27;);
+    if (selected &amp;&amp; !pool.some(target =&gt; targetKey(target) === targetKey(selected))) selected = pendingList[0] || filtered[0] || pool[0] || targets[0];
     reachableList.replaceChildren();
-    filtered.forEach(t =&gt; reachableList.appendChild(cardFor(t)));
-    if (!reachableList.children.length) reachableList.innerHTML = &#x27;&lt;p class=&quot;empty&quot;&gt;当前筛选无渠道&lt;/p&gt;&#x27;;
-    root.querySelector(&#x27;#reachable-count&#x27;).textContent = filtered.length;
-    root.querySelector(&#x27;#visible-count&#x27;).textContent = `显示 ${filtered.length} / ${pool.length}`;
+    pendingList.forEach(t =&gt; reachableList.appendChild(cardFor(t)));
+    if (!reachableList.children.length) reachableList.innerHTML = &#x27;&lt;p class=&quot;empty&quot;&gt;当前筛选无待建联渠道&lt;/p&gt;&#x27;;
+    root.querySelector(&#x27;#reachable-count&#x27;).textContent = pendingList.length;
+    root.querySelector(&#x27;#visible-count&#x27;).textContent = `待建联 ${pendingList.length} / ${pool.length}`;
     root.querySelector(&#x27;#metric-total&#x27;).textContent = pool.length;
     root.querySelector(&#x27;#metric-verified&#x27;).textContent = pool.filter(t =&gt; t.email).length;
     root.querySelector(&#x27;#metric-a&#x27;).textContent = pool.filter(t =&gt; t.priority === &#x27;A&#x27;).length;
